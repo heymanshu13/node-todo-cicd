@@ -1,5 +1,5 @@
 pipeline {
-    agent { label "dev-server" }
+    agent any
     stages{
         stage("Clone Code"){
             steps{
@@ -13,10 +13,10 @@ pipeline {
         }
         stage("Push to Docker Hub"){
             steps{
-                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"deadpool@1328",usernameVariable:"heymanshu13")]){
                 sh "docker tag node-app-test-new ${env.dockerHubUser}/node-app-test-new:latest"
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.dockerHubUser}/node-app-test-new:latest"
+                sh "docker login -u ${env.heymanshu13} -p ${env.deadpool@1328}"
+                sh "docker push ${env.heymanshu13}/node-app-test-new:latest"
                 }
             }
         }
