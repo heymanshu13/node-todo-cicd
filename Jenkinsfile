@@ -13,16 +13,16 @@ pipeline {
         }
         stage("Push to Docker Hub"){
             steps{
-                withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"deadpool@1328",usernameVariable:"heymanshu13")]){
-                sh "docker tag node-app-test-new ${env.dockerHubUser}/node-app-test-new:latest"
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.heymanshu13}/node-app-test-new:latest"
+                withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                bat "docker tag node-app-test-new ${env.dockerHubUser}/node-app-test-new:latest"
+                bat "docker login -u ${env.heymanshu13} -p ${env.deadpool@1328}"
+                bat "docker push ${env.heymanshu13}/node-app-test-new:latest"
                 }
             }
         }
         stage("Deploy"){
             steps{
-                sh "docker-compose down && docker-compose up -d"
+                bat "docker-compose down && docker-compose up -d"
             }
         }
     }
