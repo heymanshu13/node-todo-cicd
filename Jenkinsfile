@@ -13,8 +13,8 @@ pipeline {
         }
         stage("Push to Docker Hub"){
             environment {
-                    AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-                    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+                    AWS_ACCESS_KEY_ID = 'AKIAURYNMI4ALTI5WS45'
+                    AWS_SECRET_ACCESS_KEY = 'aj8c52dNow8rjuB4s0gPxlFNj9oDUk4wzMjCTkJsy'
                     AWS_REGION = 'us-east-1'
             }
             steps{
