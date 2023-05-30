@@ -13,11 +13,11 @@ pipeline {
         }
         stage("Push to Docker Hub"){
             environment {
-                AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-                AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-                AWS_REGION = 'us-east-1'
+                    AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+                    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+                    AWS_REGION = 'us-east-1'
             }
-            steps {
+            steps{
                 // Log in to ECR using AWS CLI
                 bat 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com'
                 
@@ -25,8 +25,7 @@ pipeline {
                 bat 'docker tag my-image:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'
                 
                 // Push the Docker image to ECR
-                bat 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'
-                }
+                bat 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'                
             }
         }
         stage("Deploy"){
@@ -34,4 +33,5 @@ pipeline {
                 sh "docker-compose down && docker-compose up -d"
             }
         }
-    
+    }
+}
