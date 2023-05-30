@@ -15,6 +15,7 @@ pipeline {
             environment {
                     AWS_ACCESS_KEY_ID = 'AKIAURYNMI4ALTI5WS45'
                     AWS_SECRET_ACCESS_KEY = 'aj8c52dNow8rjuB4s0gPxlFNj9oDUk4wzMjCTkJsy'
+                    AWS_ACCOUNT_ID = 'ecr-credentials'
                     AWS_REGION = 'us-east-1'
             }
             steps{
@@ -22,15 +23,15 @@ pipeline {
                 bat 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com'
                 
                 // Tag the Docker image
-                bat 'docker tag my-image:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'
+                bat 'docker tag node-app-test-new:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/demo-project:latest'
                 
                 // Push the Docker image to ECR
-                bat 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'                
+                bat 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/demo-project:latest'                
             }
         }
         stage("Deploy"){
             steps{
-                sh "docker-compose down && docker-compose up -d"
+                bat "docker-compose down && docker-compose up -d"
             }
         }
     }
