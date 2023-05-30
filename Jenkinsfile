@@ -19,7 +19,7 @@ pipeline {
             }
             steps{
                 
-                bat 'docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com'                
+                bat 'docker login -u AWS -p $(aws ecr get-login-password us-east-1) ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com'                
                
                 bat 'docker tag my-image:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/my-repo:latest'                
                
