@@ -11,13 +11,22 @@ pipeline {
                 bat "docker build . -t node-app-test-new"
             }
         }
-        stage("Push to Docker Hub"){
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'ecr-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    bat 'docker login -u $AWS_ACCESS_KEY_ID -p $AWS_SECRET_ACCESS_KEY demo-project.amazonaws.com'
-                    bat 'docker tag demo-project:latest 313023809280.dkr.ecr.us-east-1.amazonaws.com/demo-project:latest'
-                    bat 'docker push 313023809280.dkr.ecr.us-east-1.amazonaws.com/demo-project:latest'
-                }
+        stage('Push to ECR') {
+            environment {
+                AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+                AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+                AWS_REGION = 'us-east-1'
+            }
+            steps {
+                // Log in to ECR using AWS CLI
+                bat 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com'
+                
+                // Tag the Docker image
+                bat 'docker tag my-image:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'
+                
+                // Push the Docker image to ECR
+                bat 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'
+            }
             }
         }
         stage("Deploy"){
