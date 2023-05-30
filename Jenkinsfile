@@ -14,17 +14,16 @@ pipeline {
         stage("Push to Docker Hub"){
             environment {
                     AWS_ACCESS_KEY_ID = 'AKIAURYNMI4ALTI5WS45'
-                    AWS_SECRET_ACCESS_KEY = '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'
-                    AWS_REGION = 'us-east-1'
+                    AWS_SECRET_ACCESS_KEY = 'aj8c52dNow8rjuB4s0gPxlFNj9oDUk4wzMjCTkJs'                    
                     AWS_ACCOUNT_ID = '313023809280'
             }
             steps{
                 
-                bat 'docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com'                
+                bat 'docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com'                
                
-                bat 'docker tag my-image:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'                
+                bat 'docker tag my-image:latest ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/my-repo:latest'                
                
-                bat 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'                
+                bat 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/my-repo:latest'                
             }
         }
         stage("Deploy"){
