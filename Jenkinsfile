@@ -15,8 +15,8 @@ pipeline {
             steps{
                 withCredentials([usernamePassword(credentialsId: 'ecr-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     bat 'docker login -u $AWS_ACCESS_KEY_ID -p $AWS_SECRET_ACCESS_KEY demo-project.amazonaws.com'
-                    bat 'docker build -t demo-project.amazonaws.com/my-repo:latest .'
-                    bat 'docker push demo-project.amazonaws.com/my-repo:latest'
+                    bat 'docker tag demo-project:latest 313023809280.dkr.ecr.us-east-1.amazonaws.com/demo-project:latest'
+                    bat 'docker push 313023809280.dkr.ecr.us-east-1.amazonaws.com/demo-project:latest'
                 }
             }
         }
