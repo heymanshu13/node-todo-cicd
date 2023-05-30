@@ -11,7 +11,7 @@ pipeline {
                 bat "docker build . -t node-app-test-new"
             }
         }
-        stage('Push to ECR') {
+        stage("Push to Docker Hub"){
             environment {
                 AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
                 AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
@@ -26,12 +26,12 @@ pipeline {
                 
                 // Push the Docker image to ECR
                 bat 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-repo:latest'
-            }
+                }
             }
         }
         stage("Deploy"){
             steps{
-                bat "docker-compose down && docker-compose up -d"
+                sh "docker-compose down && docker-compose up -d"
             }
         }
     }
