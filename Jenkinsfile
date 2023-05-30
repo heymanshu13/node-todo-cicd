@@ -8,7 +8,7 @@ pipeline {
         }
         stage("Build and Test"){
             steps{
-                bat "docker build . -t my-image"
+                bat "docker build . -t demo-project"
             }
         }
         stage("Push to Docker Hub"){
@@ -20,9 +20,9 @@ pipeline {
                 
                 bat 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 313023809280.dkr.ecr.us-east-1.amazonaws.com'               
                
-                bat 'docker tag my-image:latest 313023809280.dkr.ecr.us-east-1.amazonaws.com/my-repo:latest'                
+                bat 'docker tag demo-project:latest 313023809280.dkr.ecr.us-east-1.amazonaws.com/demo-project:latest'                
                
-                bat 'docker push 313023809280.dkr.ecr.us-east-1.amazonaws.com/my-repo:latest'                
+                bat 'docker push 313023809280.dkr.ecr.us-east-1.amazonaws.com/demo-project:latest'                
             }
         }
         stage("Deploy"){
