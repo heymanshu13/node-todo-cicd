@@ -1,1 +1,1 @@
-Pushing new code directly to GIT (The repo doesn't exist on GIT)
+Pushing new code directly (The repo doesn't exist on GIT)
